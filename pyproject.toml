@@ -1,0 +1,13 @@
+[project]
+name = "clearml-poc"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+]
+
+[dependency-groups]
+server = [
+  "clearml>=2.1.3",
+]
