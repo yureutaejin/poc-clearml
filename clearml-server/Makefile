@@ -19,6 +19,12 @@ pre-requisites:
 	sudo chown -R $(UID):$(GID) /opt/clearml
 	@ls -al /opt/clearml
 
+.PHONY: clearml-server-up
+clearml-server-up: pre-requisites
+	cp -rf ./config/* /opt/clearml/config/
+	docker compose up -d
+
 .PHONY: cleanup
 cleanup:
+	docker compose down -v
 	sudo rm -rf /opt/clearml
