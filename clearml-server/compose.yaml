@@ -3,7 +3,7 @@ services:
     command:
     - apiserver
     container_name: clearml-apiserver
-    image: clearml/server:latest
+    image: clearml/server:2.3.0-705
     restart: unless-stopped
     volumes:
     - /opt/clearml/logs:/var/log/clearml
@@ -71,7 +71,7 @@ services:
     command:
     - fileserver
     container_name: clearml-fileserver
-    image: clearml/server:latest
+    image: clearml/server:2.3.0-705
     environment:
       CLEARML__fileserver__delete__allow_batch: "true"
     restart: unless-stopped
@@ -106,7 +106,7 @@ services:
     command:
     - webserver
     container_name: clearml-webserver
-    image: clearml/server:latest
+    image: clearml/server:2.3.0-705
     restart: unless-stopped
     depends_on:
       - apiserver
@@ -124,7 +124,7 @@ services:
       - elasticsearch
       - fileserver
     container_name: async_delete
-    image: clearml/server:latest
+    image: clearml/server:2.3.0-705
     networks:
       - backend
     restart: unless-stopped
@@ -151,7 +151,7 @@ services:
     networks:
       - backend
     container_name: clearml-agent-services
-    image: clearml/clearml-agent-services:latest
+    image: clearml/clearml-agent-services:1.3.6-100
     deploy:
       restart_policy:
         condition: on-failure
