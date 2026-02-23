@@ -79,16 +79,17 @@ def main():
     load_dotenv()
     CLEARML_OUTPUT_URI = os.getenv("CLEARML_OUTPUT_URI")
     print("CLEARML_OUTPUT_URI:", CLEARML_OUTPUT_URI)
-    task = Task.init(project_name='my project', task_name='PyTorch MNIST train', output_uri=CLEARML_OUTPUT_URI)
 
     # Training settings
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
+    parser.add_argument('--project-name', type=str, default="mnist-training-poc", help='ClearML project name')
+    parser.add_argument('--task-name', type=str, default="pytorch_mnist", help='ClearML task name')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='input batch size for training (default: 64)')
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=10, metavar='N',
-                        help='number of epochs to train (default: 10)')
+    parser.add_argument('--epochs', type=int, default=3, metavar='N',
+                        help='number of epochs to train (default: 3)')
     parser.add_argument('--lr', type=float, default=0.01, metavar='LR',
                         help='learning rate (default: 0.01)')
     parser.add_argument('--momentum', type=float, default=0.5, metavar='M',
@@ -103,6 +104,8 @@ def main():
     parser.add_argument('--save-model', action='store_true', default=True,
                         help='For Saving the current Model')
     args = parser.parse_args()
+    task = Task.init(project_name=args.project_name, task_name=args.task_name, output_uri=CLEARML_OUTPUT_URI)
+    
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
     torch.manual_seed(args.seed)
@@ -111,14 +114,14 @@ def main():
 
     kwargs = {'num_workers': 4, 'pin_memory': True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST(os.path.join('..', 'data'), train=True, download=True,
+        datasets.MNIST(os.path.join('.', 'data'), train=True, download=True,
                        transform=transforms.Compose([
                            transforms.ToTensor(),
                            transforms.Normalize((0.1307,), (0.3081,))
                        ])),
         batch_size=args.batch_size, shuffle=True, **kwargs)
     test_loader = torch.utils.data.DataLoader(
-        datasets.MNIST(os.path.join('..', 'data'), train=False, transform=transforms.Compose([
+        datasets.MNIST(os.path.join('.', 'data'), train=False, transform=transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])),
