@@ -16,6 +16,8 @@ client = [
     "numpy<2",
     "setuptools<80",
     "python-dotenv>=1.2.1",
+    "matplotlib>=3.9.4",
+    "seaborn>=0.13.2",
 ]
 
 [tool.uv.sources]

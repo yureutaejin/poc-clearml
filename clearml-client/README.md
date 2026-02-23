@@ -41,14 +41,10 @@ api {
         s3 {
             credentials: [
                 {
-                    profile: "{YOUR_AWS_PROFILE_NAME}"
                     host: "{YOUR_S3_COMPATIBLE_ENDPOINT}"
-                    #key: ""
-                    #secret: ""
                     use_credentials_chain: true
-                    #region: "minio"
-                    verify: false
-                    secure: false
+                    verify: false # for s3-compatible storage without SSL
+                    secure: false # for s3-compatible storage without SSL
                 }
             ]
         }
@@ -86,9 +82,11 @@ graph TD
 
 ## Getting Started with examples
 
-### PyTorch MNIST Example
+The examples are based on https://github.com/clearml/clearml/v2.1.3/examples.
 
 1. Copy `.env.default` to `.env`. And configure `CLEARML_OUTPUT_URI` if you want to save artifacts to external storage
+   - ***e.g.*** `CLEARML_OUTPUT_URI=s3://{YOUR_BUCKET_NAME}/{path}` (Make sure you have the right credentials configured in `~/.clearml.conf` for the storage you want to use) 
+   - s3-compatible storage, it might need endpoint(also port if not default 443). For example, `CLEARML_OUTPUT_URI=s3://{YOUR_S3_COMPATIBLE_ENDPOINT}:{port}/{bucket_name}/{path}`
 2. Run `python pytorch_mnist.py` with flag specified in argument parser
    - ***e.g.*** `python pytorch_mnist.py --project-name "mnist-training-poc" --task-name "pytorch_mnist"` 
 3. Access ClearML Server Web UI, and find the created project and task. Also verify the artifacts are uploaded to storage you want successfully.
